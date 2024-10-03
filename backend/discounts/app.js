@@ -19,15 +19,15 @@ app.use(cors({
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
 
-app.get("/discounts", (req, res, next) => {
+app.get("/api/discounts", (req, res, next) => {
     res.json("Discounts Server UP!");
 });
 
 const CouponRoutes = require("./routes/coupons.routes");
-app.use("/discounts/coupons", CouponRoutes);
+app.use("/api/discounts/coupons", CouponRoutes);
 
 const CampaignRoutes = require("./routes/campaigns.routes");
-app.use("/discounts/campaign", CampaignRoutes);
+app.use("/api/discounts/campaign", CampaignRoutes);
 
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes

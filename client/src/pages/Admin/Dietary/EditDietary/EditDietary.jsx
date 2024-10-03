@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const url = process.env.REACT_APP_SERVER_URL || 3000
+const url = process.env.REACT_APP_SERVER_URL || "http://localhost:80"
 
 function EditDietary() {
     const [dietary, setDietary] = useState("");

@@ -18,15 +18,15 @@ app.use(cors({
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
 
-app.get("/auth", (req, res, next) => {
+app.get("/api/auth", (req, res, next) => {
     res.json("Auth Server UP!");
 });
 
 const authRoutes = require("./routes/auth.routes");
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 
 const UsersRoutes = require("./routes/users.routes");
-app.use("/auth/users", UsersRoutes);
+app.use("/api/auth/users", UsersRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
