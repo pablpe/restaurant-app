@@ -9,13 +9,13 @@
 # ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -i ~/.ssh/weeknd.pem ubuntu@52.47.153.11"'
 
 [haproxy]
-haproxy ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
+haproxy ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/haproxy name=haproxy ports=80:80 
 
 [web_servers]
-client ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
-auth ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
-discounts ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
-items ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
+client ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/client name=client
+auth ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/auth name=auth
+discounts ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/discounts name=discounts
+items ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/items name=items
 
 [web_servers:vars]
 ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -i ../key.pem ubuntu@(haproxyip)"'
