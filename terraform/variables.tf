@@ -1,26 +1,26 @@
 ### Providers
 variable "region" {
-  type = string
+  type        = string
   description = "Region for the VPC"
-  default = "eu-north-1"
+  default     = "eu-north-1"
 }
 
 ### VPC
 variable "vpc_name" {
-  type = string
+  type        = string
   description = "Name for the VPC"
-  default = "Main VPC"
+  default     = "Main VPC"
 }
 
 variable "vpc_cidr_block" {
-  type = string
+  type        = string
   description = "CIDR block for the main vpc"
-  default = "10.0.0.0/16"
+  default     = "10.0.0.0/16"
 }
 
 ### Subnet
 variable "availability_zone" {
-  type = map(string)
+  type        = map(string)
   description = "Availability zones for the subnets"
   default = {
     public_subnet_az  = "eu-north-1a"
@@ -30,52 +30,52 @@ variable "availability_zone" {
 
 #### Public Subnet
 variable "public_subnet_name" {
-  type = string
+  type        = string
   description = "Name for public subnet"
-  default = "public-subnet"
+  default     = "public-subnet"
 }
 
 variable "public_subnet_cidr_block" {
-  type = string
+  type        = string
   description = "CIDR block for the public subnet"
-  default = "10.0.1.0/24"
+  default     = "10.0.1.0/24"
 }
 
 #### Private subnet
 variable "private_subnet_name" {
-  type = string
+  type        = string
   description = "Name for private subnet"
-  default = "private-subnet"
+  default     = "private-subnet"
 }
 
 variable "private_subnet_cidr_block" {
-  type = string
+  type        = string
   description = "CIDR block for the private subnet"
-  default = "10.0.2.0/24"
+  default     = "10.0.2.0/24"
 }
 
 ### Internet Gateway
 variable "igw_name" {
-  type = string
+  type        = string
   description = "Name for Internet gateway"
-  default = "igw"
+  default     = "igw"
 }
 
 ### Route Tables
 variable "cidr_allow_all" {
-  type = string
+  type        = string
   description = "CIDR Block for all communication"
-  default = "0.0.0.0/0"
+  default     = "0.0.0.0/0"
 }
 
 variable "public_route_table_name" {
-  type = string
+  type        = string
   description = "Name for the public route table"
-  default = "public route table"
+  default     = "public route table"
 }
 
 variable "private_route_table_name" {
-  type = string
+  type        = string
   description = "Name for the private route table"
-  default = "private route table"
+  default     = "private route table"
 }

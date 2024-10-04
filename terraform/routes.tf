@@ -14,13 +14,13 @@ resource "aws_route_table" "public-route-table" {
 
 resource "aws_route_table_association" "public-association" {
   subnet_id      = aws_subnet.public_subnet.id
-  route_table_id = aws_route_table.public_route.id
+  route_table_id = aws_route_table.public-route-table.id
 }
 
 
 #Private routes
 resource "aws_route_table" "private-route-table" {
-  vpc_id = aws_vpc.myVpc.id
+  vpc_id = aws_vpc.main-vpc.id
 
   tags = {
     Name = var.private_route_table_name
@@ -29,7 +29,7 @@ resource "aws_route_table" "private-route-table" {
 
 resource "aws_route_table_association" "private-association" {
   subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = aws_route_table.private_route.id
+  route_table_id = aws_route_table.private-route-table.id
 }
 
 # Nat Gateway private route
