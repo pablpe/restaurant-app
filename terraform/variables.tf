@@ -29,6 +29,12 @@ variable "availability_zone" {
 }
 
 #### Public Subnet
+variable "public_subnet_name" {
+  type = string
+  description = "Name for public subnet"
+  default = "public-subnet"
+}
+
 variable "public_subnet_cidr_block" {
   type = string
   description = "CIDR block for the public subnet"
@@ -36,8 +42,40 @@ variable "public_subnet_cidr_block" {
 }
 
 #### Private subnet
+variable "private_subnet_name" {
+  type = string
+  description = "Name for private subnet"
+  default = "private-subnet"
+}
+
 variable "private_subnet_cidr_block" {
   type = string
   description = "CIDR block for the private subnet"
   default = "10.0.2.0/24"
+}
+
+### Internet Gateway
+variable "igw_name" {
+  type = string
+  description = "Name for Internet gateway"
+  default = "igw"
+}
+
+### Route Tables
+variable "cidr_allow_all" {
+  type = string
+  description = "CIDR Block for all communication"
+  default = "0.0.0.0/0"
+}
+
+variable "public_route_table_name" {
+  type = string
+  description = "Name for the public route table"
+  default = "public route table"
+}
+
+variable "private_route_table_name" {
+  type = string
+  description = "Name for the private route table"
+  default = "private route table"
 }
