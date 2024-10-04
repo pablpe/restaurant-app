@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    networks:
+      - frontend
+    container_name: client
+  
+  auth:
+    build:
+      context: ./backend/auth
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    container_name: auth
+  
+  discounts:
+    build:
+      context: ./backend/discounts
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    container_name: discounts
+
+  items:
+    build:
+      context: ./backend/items
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    container_name: items
+
+  haproxy:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+      - backend
+    container_name: haproxy
+
+networks:
+  frontend:
+  backend:
