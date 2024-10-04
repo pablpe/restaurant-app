@@ -5,5 +5,7 @@ client/.env
 mobile/.env
 server/.env
 mobile/.expo
-terraform/.t*
-terraform/*.tfvars
+*.terraform*
+*.tfvars
+*.terraform/*
+*.tfstate
