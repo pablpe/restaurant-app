@@ -4,7 +4,7 @@ resource "aws_inscance" "client" {
     instance_type = var.instance_type
     key_name = var.key_name
     security_groups = [aws_security_group.public.id]
-    subnet_id = ###
+    #subnet_id = ###
     tags = {
         Name = "client ec2"
     }
@@ -16,7 +16,7 @@ resource "aws_instance" "auth" {
     instance_type = var.instance_type
     key_name = var.key_name
     security_groups = [aws_security_group.private.id]
-    subnet_id = ###
+    #subnet_id = ###
     tags = {
         Name = "auth ec2"
     }
@@ -28,7 +28,7 @@ resource "aws_instance" "discounts" {
     instance_type = var.instance_type
     key_name = var.key_name
     security_groups = [aws_security_group.private.id]
-    subnet_id = ###
+    #subnet_id = ###
     tags = {
         Name = "discounts ec2"
     }
@@ -40,7 +40,7 @@ resource "aws_instance" "items" {
     instance_type = var.instance_type
     key_name = var.key_name
     security_groups = [aws_security_group.private.id]
-    subnet_id = ###
+    #subnet_id = ###
     tags = {
         Name = "items ec2"
     }
@@ -52,7 +52,7 @@ resource "aws_instance" "haproxy" {
     instance_type = var.instance_type
     key_name = var.key_name
     security_groups = [aws_security_group.public.id]
-    subnet_id = ###
+    #subnet_id = ###
     tags = {
         Name = "haproxy ec2"
     }
