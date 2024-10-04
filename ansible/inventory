@@ -1,0 +1,21 @@
+# [load_balancer]
+# 52.47.153.11 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/weeknd.pem
+
+# [web_servers]
+# 10.0.2.42 ansible_host=10.0.2.42 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/weeknd.pem
+# 10.0.2.36 ansible_host=10.0.2.36 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/weeknd.pem
+
+# [web_servers:vars]
+# ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -i ~/.ssh/weeknd.pem ubuntu@52.47.153.11"'
+
+[haproxy]
+haproxy ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
+
+[web_servers]
+client ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
+auth ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
+discounts ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
+items ansible_host=(ip) ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem
+
+[web_servers:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -i ../key.pem ubuntu@(haproxyip)"'
