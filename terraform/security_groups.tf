@@ -2,25 +2,25 @@
 
 resource "aws_security_group" "public" {
     name   = "public"
-    #vpc_id = ######
+    vpc_id = aws_vpc.main-vpc.id
     ingress {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"] 
+        cidr_blocks = [var.cidr_allow_all] 
     }
 
     ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.cidr_allow_all]
   }
     egress {
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = [var.cidr_allow_all]
     }
 
     tags = {
@@ -29,7 +29,7 @@ resource "aws_security_group" "public" {
 }
 resource "aws_security_group" "private" {
     name   = "private"
-    #vpc_id = ######
+    vpc_id = aws_vpc.main-vpc.id
     ingress {
         from_port   = 80
         to_port     = 80
@@ -40,13 +40,13 @@ resource "aws_security_group" "private" {
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
+        cidr_blocks = [var.cidr_allow_all]
     }
     ingress {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["0.0.0.0/0"] 
+        cidr_blocks = [var.cidr_allow_all] 
     }
     tags = {
         Name = "private security group"
