@@ -16,6 +16,13 @@ resource "aws_security_group" "public" {
     protocol    = "tcp"
     cidr_blocks = [var.cidr_allow_all]
   }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.cidr_allow_all]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

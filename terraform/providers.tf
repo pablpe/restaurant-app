@@ -13,7 +13,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "restaurant-app-state-bucket"
+    bucket         = "restaurant-app-state-bucket-3"
     key            = "state/key"
     region         = "eu-north-1"
     dynamodb_table = "restaurant-table"
