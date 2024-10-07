@@ -7,7 +7,7 @@ global
 # Default settings
 defaults
     mode    http
-    timeout connect 5000ms
+    timeout connect 50000ms
     timeout client  50000ms
     timeout server  50000ms
     log global
@@ -43,5 +43,5 @@ backend items-backend
 
 # Backend for the frontend service
 backend frontend-backend
-    server frontend1 {{ hostvars['client'].ansible_host }}:3000
+    server frontend1 {{ hostvars['client'].ansible_host }}:80
 

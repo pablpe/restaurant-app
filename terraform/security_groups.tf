@@ -37,12 +37,6 @@ resource "aws_security_group" "public" {
 resource "aws_security_group" "private" {
   name   = "private"
   vpc_id = aws_vpc.main-vpc.id
-  ingress {
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [aws_security_group.public.id]
-  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -50,10 +44,10 @@ resource "aws_security_group" "private" {
     cidr_blocks = [var.cidr_allow_all]
   }
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = [var.cidr_allow_all]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    security_groups = [aws_security_group.public.id]
   }
   tags = {
     Name = "private security group"
