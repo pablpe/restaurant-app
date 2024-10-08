@@ -7,15 +7,15 @@ ansible_dir="ansible"
 
 function menu(){
     clear
+    echo "##### MAIN MENU #####"
     echo "1 - terraform"
-    echo "2 - generate ansible inventory"
-    echo "3 - ping ansible inventory"
-    echo "4 - run ansible playbook"
+    echo "2 - ansible"
     echo "0 - exit"
 }
 
 function terraform_menu(){
     clear
+    echo "##### TERRAFORM MENU #####"
     echo "1 - terraform clean"
     echo "2 - terraform init"
     echo "3 - terraform fmt"
@@ -23,6 +23,15 @@ function terraform_menu(){
     echo "5 - terraform plan"
     echo "6 - terraform apply"
     echo "7 - terraform destroy"
+    echo "0 - main menu"
+}
+
+function ansible_menu(){
+    clear
+    echo "##### ANSIBLE MENU #####"
+    echo "1 - generate inventory file"
+    echo "2 - ping ansible inventory"
+    echo "3 - run ansible setup playbook"
     echo "0 - main menu"
 }
 
@@ -136,6 +145,95 @@ function terraform_function(){
     done
 }
 
+function ansible_function(){
+    ansible_value="9"
+
+    while [ "$ansible_value" != "0" ]
+    do
+        ansible_menu
+        read user_choice
+
+        ansible_value=$user_choice
+
+        echo -e "\n\n"
+
+        case $user_choice in
+        "1")
+            echo "Cleaning inventory file"
+            >ansible/inventory
+
+            echo -e "\nGenerating ansible invetory . . . "
+
+            cd "$terraform_dir"
+
+            haproxy_ip=$(terraform output -raw haproxy)
+            frontend_ip=$(terraform output -raw frontend)
+            auth_ip=$(terraform output -raw auth)
+            discount_ip=$(terraform output -raw discount)
+            items_ip=$(terraform output -raw items)
+
+            echo -e "\n Gathering IPs"
+            echo "haproxy   : $haproxy_ip"
+            echo "frontend  : $frontend_ip"
+            echo "auth      : $auth_ip"
+            echo "discount  : $discount_ip"
+            echo "items     : $items_ip"
+
+            echo -e "\n Generating ansible inventory file"
+            inventory_content=$(cat <<-EOF
+                [haproxy]
+                haproxy1 ansible_host=$haproxy_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/haproxy name=haproxy ports=80:80 
+
+                [web_servers]
+                client ansible_host=$frontend_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/client name=client ports=80:80
+                auth ansible_host=$auth_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/auth name=auth ports=3001:3001
+                discounts ansible_host=$discount_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/discounts name=discounts ports=3002:3002
+                items ansible_host=$items_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/items name=items ports=3003:3003
+
+                [web_servers:vars]
+                ansible_ssh_common_args='-o ProxyCommand="ssh -i ../key.pem -W %h:22 ubuntu@${haproxy_ip}" -o ConnectTimeout=3000'
+
+EOF
+            )
+
+            cd ..
+
+            echo "$inventory_content" >> "$ansible_dir/inventory"
+
+            echo -e "\n Inventory generated"
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+            ;;
+        "2")
+            echo -e "Pinging hosts"
+
+            cd "$ansible_dir"
+            ansible all -m ping
+
+            cd ..
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+            ;;
+        "3")
+            echo -e "Runnign setup playbook"
+
+            cd "$ansible_dirsible"
+            ansible-playbook setup.yml
+
+            cd ..
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+            ;;
+        "0")
+            echo -e "\n\n Exiting . . ."
+            ;;
+        esac
+    done
+}
+
 loop_value="9"
 
 while [ "$loop_value" != "0" ]
@@ -153,73 +251,7 @@ do
         terraform_function
         ;;
     "2")
-        echo "Cleaning inventory file"
-        >ansible/inventory
-
-        echo -e "\nGenerating ansible invetory . . . "
-
-        cd "$terraform_dir"
-
-        haproxy_ip=$(terraform output -raw haproxy)
-        frontend_ip=$(terraform output -raw frontend)
-        auth_ip=$(terraform output -raw auth)
-        discount_ip=$(terraform output -raw discount)
-        items_ip=$(terraform output -raw items)
-
-        echo -e "\n Gathering IPs"
-        echo "haproxy   : $haproxy_ip"
-        echo "frontend  : $frontend_ip"
-        echo "auth      : $auth_ip"
-        echo "discount  : $discount_ip"
-        echo "items     : $items_ip"
-
-        echo -e "\n Generating ansible inventory file"
-        inventory_content=$(cat <<-EOF
-            [haproxy]
-            haproxy1 ansible_host=$haproxy_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/haproxy name=haproxy ports=80:80 
-
-            [web_servers]
-            client ansible_host=$frontend_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/client name=client ports=80:80
-            auth ansible_host=$auth_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/auth name=auth ports=3001:3001
-            discounts ansible_host=$discount_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/discounts name=discounts ports=3002:3002
-            items ansible_host=$items_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/items name=items ports=3003:3003
-
-            [web_servers:vars]
-            ansible_ssh_common_args='-o ProxyCommand="ssh -i ../key.pem -W %h:22 ubuntu@${haproxy_ip}" -o ConnectTimeout=3000'
-
-EOF
-        )
-
-        cd ..
-
-        echo "$inventory_content" >> ansible/inventory
-
-        echo -e "\n Inventory generated"
-
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
-        read continue
-        ;;
-    "3")
-        echo -e "Pinging hosts"
-
-        cd "$ansible_dir"
-        ansible all -m ping
-
-        cd ..
-
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
-        read continue
-        ;;
-    "4")
-        echo -e "Runnign playbook"
-
-        cd "$ansible_dirsible"
-        ansible-playbook setup.yml
-
-        cd ..
-
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
-        read continue
+        ansible_function
         ;;
     "0")
         echo -e "\n\n Exiting . . ."
