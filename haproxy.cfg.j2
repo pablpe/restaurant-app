@@ -31,15 +31,15 @@ frontend http-in
 
 # Backend for the auth service
 backend auth-backend
-    server auth1 {{ hostvars['loadbalancer'].dns }}:80/api/auth
+    server auth1 {{ hostvars['auth-loadbalancer'].dns }}:80/api/auth
 
 # Backend for the discounts service
 backend discounts-backend
-    server discounts1 {{ hostvars['discounts'].ansible_host }}:3002
+    server discounts1 {{ hostvars['discount-loadbalancer'].dns }}:81/api/discounts
 
 # Backend for the items service
 backend items-backend
-    server items1 {{ hostvars['items'].ansible_host }}:3003
+    server items1 {{ hostvars['items-loadbalancer'].dns }}:82/api/items
 
 # Backend for the frontend service
 backend frontend-backend

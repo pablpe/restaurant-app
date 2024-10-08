@@ -8,4 +8,8 @@ output "discount" { value = aws_instance.discounts.private_ip }
 
 output "items" { value = aws_instance.items.private_ip }
 
-output "loadbalancer" { value = aws_elb.loadbalancer.dns_name }
+output "auth-loadbalancer" { value = aws_elb.auth_loadbalancer.dns_name }
+
+output "discount-loadbalancer" { value = aws_elb.discount_loadbalancer.dns_name }
+
+output "items-loadbalancer" { value = aws_elb.items_loadbalancer.dns_name }
