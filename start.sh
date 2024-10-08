@@ -219,7 +219,7 @@ EOF
         "3")
             echo -e "Runnign setup playbook"
 
-            cd "$ansible_dir"
+            cd "$ansible_dirsible"
             ansible-playbook setup.yml
 
             cd ..
