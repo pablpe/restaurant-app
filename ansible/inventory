@@ -1,0 +1,13 @@
+[haproxy]
+haproxy1 ansible_host=16.171.231.249 ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/haproxy name=haproxy ports=80:80 
+
+
+
+[web_servers]
+client ansible_host=10.0.2.160 ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/client name=client ports=80:80
+auth ansible_host=10.0.2.89 ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/auth name=auth ports=3001:3001
+discounts ansible_host=10.0.2.27 ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/discounts name=discounts ports=3002:3002
+items ansible_host=10.0.2.246 ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/items name=items ports=3003:3003
+
+[web_servers:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -i ../key.pem -W %h:22 ubuntu@16.171.231.249" -o ConnectTimeout=30'

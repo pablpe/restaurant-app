@@ -1,0 +1,62 @@
+---
+- hosts: web_servers
+  become: yes
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Pull Docker images
+      docker_image:
+        name: "{{ docker_image }}"
+        source: pull
+        
+    - name: Run the images
+      docker_container:
+        name: "{{ name }}"
+        image: "{{ docker_image }}"
+        ports: "{{ ports | default([]) }}"
+        state: started
+        detach: yes
+
+
+- hosts: haproxy
+  become: yes
+  tasks:
+    - name: update_cache
+      apt:
+        update_cache: yes
+    - name: Install haproxy
+      apt:
+        name: haproxy
+        state: present
+    - name: copy haproxy.cfg 
+      template:
+        src: ../haproxy.cfg.j2
+        dest: /etc/haproxy/haproxy.cfg
+    - name: restart haproxy
+      service:
+        name: haproxy
+        state: restarted
+
+    # - name: copy haproxy.cfg
+    #   template:
+    #     src: ../haproxy.cfg.j2
+    #     dest: /haproxy.cfg
+    # # - name: start again the container
+    # #   command: docker run -d --name haproxy -p 80:80 haproxy -db
+    # - name: Unpause the Docker container
+    #   community.docker.docker_container:
+    #     name: haproxy  # Replace with your container name or ID
+    #     state: started      # 'started' will unpause a paused container
+    # - name: copy haproxy.cfg into the container
+    #   community.docker.docker_container_copy_into:
+    #     container: haproxy
+    #     path: /haproxy.cfg
+    #     container_path: /usr/local/etc/haproxy/haproxy.cfg
+    # - name: Get into the container
+    #   command: docker exec -it haproxy
+    # - name: Restart haproxy
+    #   command: systemctl restart haproxy
