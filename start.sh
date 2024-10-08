@@ -31,7 +31,7 @@ do
 
         cd ..
 
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE"
+        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
         read continue
         ;;
     "2")
@@ -42,7 +42,7 @@ do
 
         cd ..
 
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE"
+        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
         read continue
         ;;
     "3")
@@ -60,11 +60,11 @@ do
         items_ip=$(terraform output -raw items)
 
         echo -e "\n Gathering IPs"
-        echo "haproxy: $haproxy_ip"
-        echo "frontend: $frontend_ip"
-        echo "auth: $auth_ip"
-        echo "discount: $discount_ip"
-        echo "items: $items_ip"
+        echo "haproxy   : $haproxy_ip"
+        echo "frontend  : $frontend_ip"
+        echo "auth      : $auth_ip"
+        echo "discount  : $discount_ip"
+        echo "items     : $items_ip"
 
         echo -e "\n Generating ansible inventory file"
         inventory_content=$(cat <<-EOF
@@ -89,7 +89,7 @@ EOF
 
         echo -e "\n Inventory generated"
 
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE"
+        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
         read continue
         ;;
     "4")
@@ -100,7 +100,7 @@ EOF
 
         cd ..
 
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE"
+        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
         read continue
         ;;
     "5")
@@ -111,7 +111,7 @@ EOF
 
         cd ..
 
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE"
+        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
         read continue
         ;;
     "0")
