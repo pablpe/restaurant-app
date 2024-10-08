@@ -9,4 +9,4 @@ mobile/.expo
 *.tfvars
 *.terraform/*
 *.tfstate
-key.pem
+*.pem
