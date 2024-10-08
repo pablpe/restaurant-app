@@ -7,7 +7,7 @@ ansible_dir="ansible"
 
 function menu(){
     clear
-    echo "1 - terraform apply"
+    echo "1 - terraform"
     echo "2 - generate ansible inventory"
     echo "3 - ping ansible inventory"
     echo "4 - run ansible playbook"
