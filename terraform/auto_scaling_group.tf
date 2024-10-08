@@ -12,7 +12,6 @@ resource "aws_autoscaling_group" "project_asg" {
   desired_capacity          = 1
   force_delete              = true
   placement_group           = aws_placement_group.test.id
-  launch_configuration      = aws_launch_configuration.foobar.name
   vpc_zone_identifier       = [aws_subnet.private_subnet.id]
     launch_template {
     id      = aws_launch_template.lauch_template_P.id
@@ -21,7 +20,7 @@ resource "aws_autoscaling_group" "project_asg" {
     min_healthy_percentage = 90
     max_healthy_percentage = 120
   }
-    load_balancers = [aws_elb.project_elb.name]
+    load_balancers = [aws_elb.loadbalancer.name]
 
 }
 
