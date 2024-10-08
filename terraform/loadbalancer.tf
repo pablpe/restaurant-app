@@ -2,7 +2,7 @@
 resource "aws_elb" "loadbalancer" {
   name               = var.loadbalancer_name
   # availability_zones = [var.availability_zone["private_subnet_az"]]
-  subnets = [aws_subnet.private_subnet.id]
+  subnets = [aws_subnet.public_subnet, aws_subnet.private_subnet.id]
   listener {
     instance_port     = 3001
     instance_protocol = "http"

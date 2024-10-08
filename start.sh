@@ -171,13 +171,15 @@ function ansible_function(){
             auth_ip=$(terraform output -raw auth)
             discount_ip=$(terraform output -raw discount)
             items_ip=$(terraform output -raw items)
+            loadbalancer_ip=$(terraform output -raw loadbalancer)
 
             echo -e "\n Gathering IPs"
-            echo "haproxy   : $haproxy_ip"
-            echo "frontend  : $frontend_ip"
-            echo "auth      : $auth_ip"
-            echo "discount  : $discount_ip"
-            echo "items     : $items_ip"
+            echo "haproxy       : $haproxy_ip"
+            echo "frontend      : $frontend_ip"
+            echo "auth          : $auth_ip"
+            echo "discount      : $discount_ip"
+            echo "items         : $items_ip"
+            echo "loadbalancer  : $loadbalancer_ip"
 
             echo -e "\n Generating ansible inventory file"
             inventory_content=$(cat <<-EOF
@@ -189,6 +191,9 @@ client ansible_host=$frontend_ip ansible_user=ubuntu ansible_ssh_private_key_fil
 auth ansible_host=$auth_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/auth name=auth ports=3001:3001
 discounts ansible_host=$discount_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/discounts name=discounts ports=3002:3002
 items ansible_host=$items_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/items name=items ports=3003:3003
+
+[loadbalancers]
+loadbalancer dns=$loadbalancer_ip
 
 [web_servers:vars]
 ansible_ssh_common_args='-o ProxyCommand="ssh -i ../key.pem -W %h:22 ubuntu@${haproxy_ip}" -o ConnectTimeout=3000'
