@@ -1,5 +1,5 @@
 # Create a new load balancer
-resource "aws_elb" "bar" {
+resource "aws_elb" "loadbalancer" {
   name               = var.loadbalancer_name
   availability_zones = [var.availability_zone["public_subnet_az"], var.availability_zone["private_subnet_az"]]
 
