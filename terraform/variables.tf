@@ -79,15 +79,29 @@ variable "private_route_table_name" {
   description = "Name for the private route table"
   default     = "private route table"
 }
+
+### EC2
 variable "ami" {
-  type    = string
-  default = "ami-08eb150f611ca277f"
+  type        = string
+  description = "Amazon Image ID for the ec2 instasnces"
+  default     = "ami-08eb150f611ca277f"
 }
+
 variable "instance_type" {
-  type    = string
-  default = "t3.medium"
+  type        = string
+  description = "Amazon instance type"
+  default     = "t3.micro"
 }
+
 variable "key_name" {
-  type = string
+  type        = string
+  description = "Key pair for ec2"
+}
+
+### Loadbalancer
+variable "loadbalancer_name" {
+  type        = string
+  description = "Name for the loadbalancer"
+  default     = "restaurant-loadbalancer"
 }
 
