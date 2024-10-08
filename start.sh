@@ -1,13 +1,137 @@
 #!/bin/bash
 
+#script directory
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 function menu(){
     clear
     echo "1 - terraform apply"
-    echo "2 - terraform destroy"
-    echo "3 - generate ansible inventory"
-    echo "4 - ping ansible inventory"
-    echo "5 - run ansible playbook"
+    echo "2 - generate ansible inventory"
+    echo "3 - ping ansible inventory"
+    echo "4 - run ansible playbook"
     echo "0 - exit"
+}
+
+function terraform_menu(){
+    
+    echo "1 - terraform clean"
+    echo "2 - terraform init"
+    echo "3 - terraform fmt"
+    echo "4 - terraform validate"
+    echo "5 - terraform plan"
+    echo "6 - terraform apply"
+    echo "7 - terraform destroy"
+    echo "0 - main menu"
+}
+
+function terraform_function(){
+
+    terraform_loop="9"
+    while [ "$terraform_loop" != "0" ]
+    do
+        terraform_menu
+        read user_choice
+
+        terraform_loop=$user_choice
+
+        echo -e "\n\n"
+
+        case $user_choice in
+        "1")
+            echo "Cleaning terraform directories"
+
+            cd terraform
+
+            rm -rf .terraform .terraform.lock.hcl terraform.tfstate.backup
+
+            echo -e "\n Cleaning done"
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+
+            cd ..
+
+            ;;
+        "2")
+            echo "Initiating terraform . . ."
+
+            cd terraform
+
+            terraform init || { echo "Terraform init failed"; return; }
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+
+            cd ..
+
+            ;;
+        "3")
+            echo "Initiating terraform format . . ."
+
+            cd terraform
+
+            terraform fmt
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+
+            cd ..
+
+            ;;
+        "4")
+            echo "Initiating terraform validate . . ."
+
+            cd terraform
+
+            terraform validate
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+
+            cd ..
+
+            ;;
+        "5")
+            echo "Initiating terraform plan . . ."
+
+            cd terraform
+
+            terraform plan
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+
+            cd ..
+            ;;
+        "6")
+            echo "Running terraform apply . . . "
+
+            cd terraform
+
+            terraform apply -auto-approve
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+
+            cd ..
+            ;;
+        "7")
+            echo "Running terraform destroy . . . "
+
+            cd terraform
+
+            terraform destroy -auto-approve
+
+            echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
+            read continue
+
+            cd ..
+            ;;
+        "0")
+            echo -e "\n\n Exiting . . ."
+            ;;
+        esac
+    done
 }
 
 loop_value="9"
@@ -24,32 +148,13 @@ do
 
     case $user_reply in
     "1")
-        echo "Running terraform apply. . . "
-
-        cd terraform
-        terraform apply -auto-approve
-
-        cd ..
-
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
-        read continue
+        terraform_function
         ;;
     "2")
-        echo "Running terraform destroy. . . "
-
-        cd terraform
-        terraform destroy -auto-approve
-
-        cd ..
-
-        echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
-        read continue
-        ;;
-    "3")
         echo "Cleaning inventory file"
         >ansible/inventory
 
-        echo -e "\nGenerating ansible invetory. . . "
+        echo -e "\nGenerating ansible invetory . . . "
 
         cd terraform
 
@@ -92,7 +197,7 @@ EOF
         echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
         read continue
         ;;
-    "4")
+    "3")
         echo -e "Pinging hosts"
 
         cd ansible
@@ -103,7 +208,7 @@ EOF
         echo -e "\n >>>> PRESS ANY KEY TO CONTINUE <<<<"
         read continue
         ;;
-    "5")
+    "4")
         echo -e "Runnign playbook"
 
         cd ansible
