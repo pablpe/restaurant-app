@@ -217,7 +217,7 @@ EOF
             read continue
             ;;
         "3")
-            echo -e "Runnign setup playbook"
+            echo -e "Running setup playbook"
 
             cd "$ansible_dir"
             ansible-playbook setup.yml
