@@ -6,7 +6,7 @@ resource "aws_elb" "auth_loadbalancer" {
   listener {
     instance_port     = 3001
     instance_protocol = "http"
-    lb_port           = 80
+    lb_port           = 81
     lb_protocol       = "http"
   }
 
@@ -39,7 +39,7 @@ resource "aws_elb" "discount_loadbalancer" {
   listener {
     instance_port     = 3002
     instance_protocol = "http"
-    lb_port           = 81
+    lb_port           = 82
     lb_protocol       = "http"
   }
 
@@ -47,7 +47,7 @@ resource "aws_elb" "discount_loadbalancer" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:3002/api/auth"
+    target              = "HTTP:3002/api/discounts"
     interval            = 5
   }
 
@@ -72,7 +72,7 @@ resource "aws_elb" "items_loadbalancer" {
   listener {
     instance_port     = 3003
     instance_protocol = "http"
-    lb_port           = 82
+    lb_port           = 83
     lb_protocol       = "http"
   }
 
@@ -80,7 +80,7 @@ resource "aws_elb" "items_loadbalancer" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:3003/api/auth"
+    target              = "HTTP:3003/api/items"
     interval            = 5
   }
 
