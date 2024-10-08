@@ -44,9 +44,9 @@ resource "aws_security_group" "private" {
     cidr_blocks = [var.cidr_allow_all]
   }
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
     security_groups = [aws_security_group.public.id]
   }
   tags = {
