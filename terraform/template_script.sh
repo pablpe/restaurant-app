@@ -1,4 +1,4 @@
-# !bin/sh
+#!bin/bash
 
 # Update package list and install prerequisites
 sudo apt-get update

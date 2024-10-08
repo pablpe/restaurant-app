@@ -1,7 +1,3 @@
-resource "aws_placement_group" "test" {
-  name     = "test"
-  strategy = "cluster"
-}
 
 resource "aws_autoscaling_group" "project_asg" {
   name                      = "project-asg"
@@ -11,7 +7,6 @@ resource "aws_autoscaling_group" "project_asg" {
   health_check_type         = "ELB"
   desired_capacity          = 1
   force_delete              = true
-  placement_group           = aws_placement_group.test.id
   vpc_zone_identifier       = [aws_subnet.private_subnet.id]
     launch_template {
     id      = aws_launch_template.lauch_template_P.id
@@ -26,17 +21,21 @@ resource "aws_autoscaling_group" "project_asg" {
 
 resource "aws_autoscaling_policy" "cpu_policy" {
   name                  = "cpu-policy"
-  scaling_adjustment     = 1
-  adjustment_type        = "ChangeInCapacity"
-  cooldown               = 300
   autoscaling_group_name = aws_autoscaling_group.project_asg.name
 
+  # Change this to use TargetTrackingScaling
+  policy_type          = "TargetTrackingScaling"
+
+  # No need for scaling_adjustment, adjustment_type, or cooldown here
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
 
     target_value = 50.0
+
+    # Optional parameters
+    # Set these as needed
   }
 }
 

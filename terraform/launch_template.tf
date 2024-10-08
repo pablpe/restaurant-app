@@ -4,7 +4,7 @@ resource "aws_launch_template" "lauch_template_P" {
 
   instance_initiated_shutdown_behavior = "terminate"
 
-  instance_type = "t3.micro"
+  instance_type = "t3.small"
   key_name = var.key_name
 
   monitoring {
