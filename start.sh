@@ -1,7 +1,9 @@
 #!/bin/bash
 
-#script directory
+#directories
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+terraform_dir="terraform"
+ansible_dir="ansible"
 
 function menu(){
     clear
@@ -13,7 +15,7 @@ function menu(){
 }
 
 function terraform_menu(){
-    
+    clear
     echo "1 - terraform clean"
     echo "2 - terraform init"
     echo "3 - terraform fmt"
@@ -40,7 +42,7 @@ function terraform_function(){
         "1")
             echo "Cleaning terraform directories"
 
-            cd terraform
+            cd "$terraform_dir"
 
             rm -rf .terraform .terraform.lock.hcl terraform.tfstate.backup
 
@@ -55,7 +57,7 @@ function terraform_function(){
         "2")
             echo "Initiating terraform . . ."
 
-            cd terraform
+            cd "$terraform_dir"
 
             terraform init || { echo "Terraform init failed"; return; }
 
@@ -68,7 +70,7 @@ function terraform_function(){
         "3")
             echo "Initiating terraform format . . ."
 
-            cd terraform
+            cd "$terraform_dir"
 
             terraform fmt
 
@@ -81,7 +83,7 @@ function terraform_function(){
         "4")
             echo "Initiating terraform validate . . ."
 
-            cd terraform
+            cd "$terraform_dir"
 
             terraform validate
 
@@ -94,7 +96,7 @@ function terraform_function(){
         "5")
             echo "Initiating terraform plan . . ."
 
-            cd terraform
+            cd "$terraform_dir"
 
             terraform plan
 
@@ -106,7 +108,7 @@ function terraform_function(){
         "6")
             echo "Running terraform apply . . . "
 
-            cd terraform
+            cd "$terraform_dir"
 
             terraform apply -auto-approve
 
@@ -118,7 +120,7 @@ function terraform_function(){
         "7")
             echo "Running terraform destroy . . . "
 
-            cd terraform
+            cd "$terraform_dir"
 
             terraform destroy -auto-approve
 
@@ -156,7 +158,7 @@ do
 
         echo -e "\nGenerating ansible invetory . . . "
 
-        cd terraform
+        cd "$terraform_dir"
 
         haproxy_ip=$(terraform output -raw haproxy)
         frontend_ip=$(terraform output -raw frontend)
@@ -200,7 +202,7 @@ EOF
     "3")
         echo -e "Pinging hosts"
 
-        cd ansible
+        cd "$ansible_dir"
         ansible all -m ping
 
         cd ..
@@ -211,7 +213,7 @@ EOF
     "4")
         echo -e "Runnign playbook"
 
-        cd ansible
+        cd "$ansible_dirsible"
         ansible-playbook setup.yml
 
         cd ..
