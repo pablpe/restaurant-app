@@ -181,17 +181,17 @@ function ansible_function(){
 
             echo -e "\n Generating ansible inventory file"
             inventory_content=$(cat <<-EOF
-                [haproxy]
-                haproxy1 ansible_host=$haproxy_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/haproxy name=haproxy ports=80:80 
+[haproxy]
+haproxy1 ansible_host=$haproxy_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/haproxy name=haproxy ports=80:80 
 
-                [web_servers]
-                client ansible_host=$frontend_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/client name=client ports=80:80
-                auth ansible_host=$auth_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/auth name=auth ports=3001:3001
-                discounts ansible_host=$discount_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/discounts name=discounts ports=3002:3002
-                items ansible_host=$items_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/items name=items ports=3003:3003
+[web_servers]
+client ansible_host=$frontend_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem docker_image=pablop115/client name=client ports=80:80
+auth ansible_host=$auth_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/auth name=auth ports=3001:3001
+discounts ansible_host=$discount_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/discounts name=discounts ports=3002:3002
+items ansible_host=$items_ip ansible_user=ubuntu ansible_ssh_private_key_file=../key.pem  docker_image=pablop115/items name=items ports=3003:3003
 
-                [web_servers:vars]
-                ansible_ssh_common_args='-o ProxyCommand="ssh -i ../key.pem -W %h:22 ubuntu@${haproxy_ip}" -o ConnectTimeout=3000'
+[web_servers:vars]
+ansible_ssh_common_args='-o ProxyCommand="ssh -i ../key.pem -W %h:22 ubuntu@${haproxy_ip}" -o ConnectTimeout=3000'
 
 EOF
             )
@@ -217,9 +217,9 @@ EOF
             read continue
             ;;
         "3")
-            echo -e "Runnign setup playbook"
+            echo -e "Running setup playbook"
 
-            cd "$ansible_dirsible"
+            cd "$ansible_dir"
             ansible-playbook setup.yml
 
             cd ..
@@ -244,7 +244,7 @@ do
     
     loop_value=$user_reply
 
-    echo -e "\n\n"
+    echo -e "\n\n"          
 
     case $user_reply in
     "1")
