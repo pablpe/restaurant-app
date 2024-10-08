@@ -31,7 +31,7 @@ frontend http-in
 
 # Backend for the auth service
 backend auth-backend
-    server auth1 {{ hostvars['auth'].ansible_host }}:3001
+    server auth1 {{ hostvars['loadbalancer'].dns }}:80/api/auth
 
 # Backend for the discounts service
 backend discounts-backend
