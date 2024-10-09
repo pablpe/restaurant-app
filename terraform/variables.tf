@@ -99,9 +99,21 @@ variable "key_name" {
 }
 
 ### Loadbalancer
-variable "loadbalancer_name" {
+variable "loadbalancer_auth_name" {
   type        = string
   description = "Name for the loadbalancer"
-  default     = "restaurant-loadbalancer"
+  default     = "restaurant-auth-loadbalancer"
+}
+
+variable "loadbalancer_discount_name" {
+  type        = string
+  description = "Name for the loadbalancer"
+  default     = "restaurant-discount-loadbalancer"
+}
+
+variable "loadbalancer_items_name" {
+  type        = string
+  description = "Name for the loadbalancer"
+  default     = "restaurant-items-loadbalancer"
 }
 
