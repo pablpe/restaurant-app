@@ -6,7 +6,7 @@ resource "aws_elb" "auth_loadbalancer" {
   listener {
     instance_port     = 3001
     instance_protocol = "http"
-    lb_port           = 81
+    lb_port           = 80
     lb_protocol       = "http"
   }
 
@@ -39,7 +39,7 @@ resource "aws_elb" "discount_loadbalancer" {
   listener {
     instance_port     = 3002
     instance_protocol = "http"
-    lb_port           = 82
+    lb_port           = 80
     lb_protocol       = "http"
   }
 
@@ -72,7 +72,7 @@ resource "aws_elb" "items_loadbalancer" {
   listener {
     instance_port     = 3003
     instance_protocol = "http"
-    lb_port           = 83
+    lb_port           = 80
     lb_protocol       = "http"
   }
 
