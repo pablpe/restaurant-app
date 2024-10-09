@@ -15,7 +15,7 @@ resource "aws_elb" "auth_loadbalancer" {
     unhealthy_threshold = 2
     timeout             = 3
     target              = "HTTP:3001/api/auth"
-    interval            = 5
+    interval            = 10
   }
 
   instances                   = []
@@ -24,7 +24,7 @@ resource "aws_elb" "auth_loadbalancer" {
   connection_draining         = true
   connection_draining_timeout = 400
 
-  security_groups = [aws_security_group.public.id, aws_security_group.private.id] 
+  security_groups = [aws_security_group.public.id] 
 
   tags = {
     Name = var.loadbalancer_auth_name
@@ -48,7 +48,7 @@ resource "aws_elb" "discount_loadbalancer" {
     unhealthy_threshold = 2
     timeout             = 3
     target              = "HTTP:3002/api/discounts"
-    interval            = 5
+    interval            = 10
   }
 
   instances                   = []
@@ -57,7 +57,7 @@ resource "aws_elb" "discount_loadbalancer" {
   connection_draining         = true
   connection_draining_timeout = 400
 
-  security_groups = [aws_security_group.public.id, aws_security_group.private.id] 
+  security_groups = [aws_security_group.public.id] 
 
   tags = {
     Name = var.loadbalancer_discount_name
@@ -81,7 +81,7 @@ resource "aws_elb" "items_loadbalancer" {
     unhealthy_threshold = 2
     timeout             = 3
     target              = "HTTP:3003/api/items"
-    interval            = 5
+    interval            = 10
   }
 
   instances                   = []
@@ -90,7 +90,7 @@ resource "aws_elb" "items_loadbalancer" {
   connection_draining         = true
   connection_draining_timeout = 400
 
-  security_groups = [aws_security_group.public.id, aws_security_group.private.id] 
+  security_groups = [aws_security_group.public.id] 
 
   tags = {
     Name = var.loadbalancer_items_name

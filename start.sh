@@ -203,7 +203,7 @@ items-loadbalancer dns=$items_loadbalancer_ip
 
 [web_servers:vars]
 ansible_ssh_common_args='-o ProxyCommand="ssh -i ../key.pem -W %h:22 ubuntu@${haproxy_ip}" -o ConnectTimeout=3000'
-
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 EOF
             )
 
