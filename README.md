@@ -1,6 +1,6 @@
 <h1>Restaurant App</h1>
 <h2>Architecture</h2>
-<p>Image goes here</p>
+<img href="restaurant_architecture.png"></img>
 
 <h2>Deployment</h2>
 <h3>Menu</h3>
